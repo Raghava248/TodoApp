@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todoapp/UI/Intray/intray_page.dart';
-import 'package:todoapp/models/global.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Todo App',
       theme: ThemeData(
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Todo app'),
     );
@@ -30,75 +28,46 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50.0),
-          child: AppBar(
-            bottom: TabBar(
-              labelColor: darkGreyColor,
+    return SafeArea(
+      child: MaterialApp(
+        color: Colors.yellow,
+        home: DefaultTabController(
+          length: 3,
+          child: new Scaffold(
+            body: TabBarView(
+              children: [
+                new Container(
+                  color: Colors.yellow,
+                ),
+                new Container(
+                  color: Colors.orange,
+                ),
+                new Container(
+                  color: Colors.lightGreen,
+                ),
+              ],
+            ),
+            appBar: new TabBar(
+              tabs: [
+                Tab(
+                  icon: new Icon(Icons.home),
+                ),
+                Tab(
+                  icon: new Icon(Icons.rss_feed),
+                ),
+                Tab(
+                  icon: new Icon(Icons.perm_identity),
+                ),
+              ],
+              labelColor: Colors.yellow,
               unselectedLabelColor: Colors.blue,
               indicatorSize: TabBarIndicatorSize.label,
-              indicatorColor: Colors.transparent,
               indicatorPadding: EdgeInsets.all(5.0),
-              tabs: [
-                Tab(icon: Icon(Icons.home)),
-                Tab(icon: Icon(Icons.wifi)),
-                Tab(icon: Icon(Icons.person)),
-              ],
+              indicatorColor: Colors.red,
             ),
-            backgroundColor: Colors.white,
-            elevation: 0,
+            backgroundColor: Colors.black,
           ),
         ),
-        body: Stack(children: <Widget>[
-          TabBarView(
-            children: [
-              IntrayPage(),
-              Container(
-                color: Colors.green,
-              ),
-              Container(
-                color: Colors.grey,
-              ),
-            ],
-          ),
-          Container(
-            padding: EdgeInsets.only(left: 50),
-            height: 160,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(50),
-                    bottomRight: Radius.circular(50)),
-                color: Colors.white),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  "Intray",
-                  style: intrayTitleStyle,
-                ),
-                Container()
-              ],
-            ),
-          ),
-          Container(
-            height: 80,
-            width: 80,
-            margin: EdgeInsets.only(
-                top: 120, left: MediaQuery.of(context).size.width * 0.5 - 40),
-            child: FloatingActionButton(
-              onPressed: () {},
-              child: Icon(
-                Icons.add,
-                size: 70,
-                color: Colors.white,
-              ),
-              backgroundColor: redColor,
-            ),
-          )
-        ]),
       ),
     );
   }

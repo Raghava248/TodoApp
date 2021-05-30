@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todoapp/models/classes/task.dart';
 import 'package:todoapp/models/global.dart';
 import 'package:todoapp/models/widgets/intray_todo_widget.dart';
 
@@ -9,52 +10,67 @@ class IntrayPage extends StatefulWidget {
 }
 
 class _IntrayPageState extends State<IntrayPage> {
-  List<IntrayTodo> todoItems = [];
+  List<Task> taskList = [];
   @override
   Widget build(BuildContext context) {
+    taskList = getList();
     return Container(
 
       color: darkGreyColor,
-      child:ReorderableListView(
-        padding: EdgeInsets.only(top: 200),
-        
-        children: [
-          for(final items in  getList())
-            Container(
-
-              child: Card(
-
-                color: Colors.white,
-                key: ValueKey(items),
-
-              ),
-            )
+      child: _buildReorderableListSimple(context),
+    );
+  }
+  Widget _buildListTile(BuildContext context, Task item) {
 
 
-        ],
-        onReorder: reorderData,
+    return ListTile(
+      key: Key(item.taskId),
+      title: IntrayTodo(
+        title: item.title),
+    );
+  }
+  Widget _buildReorderableListSimple(BuildContext context) {
+    return Theme(
+      data: ThemeData(
+        canvasColor: Colors.transparent
+      ),
+      child: ReorderableListView(
+        // handleSide: ReorderableListSimpleSide.Right,
+        // handleIcon: Icon(Icons.access_alarm),
+
+        padding: EdgeInsets.only(top: 300.0),
+        children: taskList.map((Task item) {
+          return _buildListTile(context, item);
+        }).toList(),
+        onReorder: (oldIndex, newIndex) {
+          setState(() {
+           Task item = taskList[oldIndex];
+           taskList.remove(item);
+           taskList.insert(newIndex, item);
+          });
+        },
       ),
     );
   }
 
-  List<Widget> getList() {
+/*void _onReorder(int oldIndex, int newIndex){
+    setState(() {
+      if(newIndex>oldIndex){
+        newIndex-=1;
+      }
+      final Task item = taskList.removeAt(oldIndex);
+      taskList.insert(newIndex, item);
+    });
+}*/
+  List<Task> getList() {
 
     for(int i = 0; i < 10; i++){
-      todoItems.add(IntrayTodo(keyValue: i.toString(), title: 'Hello',));
+      taskList.add(Task("My first todo " + i.toString(),false, i.toString()));
 
     }
-    return todoItems;
+    return taskList;
   }
 
-  void reorderData(int oldindex, int newindex){
 
-    setState(() {
-      if(newindex>oldindex){
-        newindex-=1;
-      }
-      final items = todoItems.removeAt(oldindex);
-      todoItems.insert(newindex, items);
-    });
-  }
 }
 
