@@ -15,7 +15,7 @@ api.add_resource(Register, '/register')
 db.init_app(app)
 
 if __name__ == "__main__":
-    app.run()
+     app.run()
 # class User(db.Model):
 #     __tablename__ = 'users'
 #

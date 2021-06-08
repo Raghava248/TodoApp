@@ -15,6 +15,7 @@ class Register(Resource):
             user_list = []
             for i in range(0, len(users)):
                 user_list.append(users[i].serialize())
+            print(str(user_list))
             return {"status": "success", "data": str(user_list)}, 200
 
     def post(self):
